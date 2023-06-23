@@ -16,6 +16,14 @@ contract tafitLottery{
         require(msg.value==0.001 ether, "Please pay .001 ether to play ");
         players.push(payable(msg.sender));
     }
-    
 
+    function getBalance()public view returns(uint){
+        require(manager==msg.sender, "You are not the manager");
+        return address(this).balance;
+    }
+    function random()internal view returns(uint){
+
+        return uint(keccak256(abi.encodePacked(block.timestamp,block.prevrandao,players.length)));
+
+    }
 }
