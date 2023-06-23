@@ -26,4 +26,17 @@ contract tafitLottery{
         return uint(keccak256(abi.encodePacked(block.timestamp,block.prevrandao,players.length)));
 
     }
+
+    function pickWinner() public{
+        require(manager==msg.sender, "You are not the manager ");
+        require(players.length>=3,"Player are less than 3");
+
+        uint r=random();
+        uint index=r%players.length;
+        winner=players[index];
+        winner.transfer(getBalance());
+        players=new address payable[](0);//this will reset the players pool
+    }
+
+
 }
